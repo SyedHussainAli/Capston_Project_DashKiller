@@ -2,6 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
+
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,11 +17,17 @@ public class PlayerController : MonoBehaviour
     public GameObject enemyDetector;
     float range = 14.74f;
     public bool gameOver;
+
+    public GameObject RestartButton;
+
+    public TextMeshProUGUI scores;
+    int Scores=0;
     
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        scores.text = "Scores : 0";
     }
     // Update is called once per frame
     void Update()
@@ -63,15 +73,25 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") && allowKill)
         {
             Destroy(collision.gameObject);
+            Scores += 5;
+            scores.text = "Scores :" + Scores;
+
+
         }
         if (collision.gameObject.CompareTag("Enemy") && !allowKill)
         {
             Destroy(collision.gameObject);
             animator.SetBool("isDead", true);
+            StartCoroutine("RestartActivate");
             gameOver = true;
         }
     }
 
+    IEnumerator RestartActivate()
+    {
+        yield return new WaitForSeconds(2);
+        RestartButton.SetActive(true);
+    }
     
     IEnumerator Dash()
     {
@@ -103,6 +123,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 

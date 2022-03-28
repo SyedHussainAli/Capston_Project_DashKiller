@@ -12,9 +12,5 @@ public class ArrowMovement : MonoBehaviour
         Destroy(gameObject, 2);
     }
 
- /*   // Update is called once per frame
-    void Update()
-    {
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
-    }*/
+
 }
